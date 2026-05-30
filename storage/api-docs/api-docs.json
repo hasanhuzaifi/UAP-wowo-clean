@@ -1,0 +1,360 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "WowoClean API",
+        "description": "API untuk sistem manajemen limbah WowoClean",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "/api/v1"
+        }
+    ],
+    "paths": {
+        "/api/v1/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Login user dan dapatkan JWT token",
+                "operationId": "da2ca4d7a5cdec77b8b45a20373535cb",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "admin@wowoclean.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "admin123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login sukses, return JWT token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Login berhasil"
+                                        },
+                                        "token": {
+                                            "type": "string"
+                                        },
+                                        "user": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Email atau password salah"
+                    }
+                }
+            }
+        },
+        "/api/v1/profile": {
+            "get": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Dapatkan data profile user yang sedang login",
+                "operationId": "e7fa93473c44547baf6183ba42322df2",
+                "responses": {
+                    "200": {
+                        "description": "Data profile user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Token tidak valid atau expired"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/logout": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Logout user dan invalidate token",
+                "operationId": "c4eddaf1a2e990cc90e4326c0d731d41",
+                "responses": {
+                    "200": {
+                        "description": "Logout berhasil"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/gateway/containers": {
+            "get": {
+                "tags": [
+                    "Containers Gateway"
+                ],
+                "summary": "Dapatkan semua containers (admin dan user bisa akses)",
+                "operationId": "91669c8dc240fab259787344870d5286",
+                "responses": {
+                    "200": {
+                        "description": "List semua containers dengan tracking logs"
+                    },
+                    "401": {
+                        "description": "Unauthorized - token tidak valid"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Containers Gateway"
+                ],
+                "summary": "Buat container baru (hanya admin)",
+                "operationId": "8827618853f8a990c6b090ea46ccc727",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "container_id",
+                                    "waste_type",
+                                    "weight_kg",
+                                    "status"
+                                ],
+                                "properties": {
+                                    "container_id": {
+                                        "type": "string",
+                                        "example": "AB12345"
+                                    },
+                                    "waste_type": {
+                                        "type": "string",
+                                        "example": "Chemical"
+                                    },
+                                    "weight_kg": {
+                                        "type": "number",
+                                        "example": 850
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "Active",
+                                            "Archived"
+                                        ],
+                                        "example": "Active"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Container berhasil dibuat"
+                    },
+                    "403": {
+                        "description": "Forbidden - hanya admin yang bisa create"
+                    },
+                    "422": {
+                        "description": "Validasi error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/gateway/containers/{id}/logs": {
+            "get": {
+                "tags": [
+                    "Containers Gateway"
+                ],
+                "summary": "Dapatkan tracking logs untuk container tertentu",
+                "operationId": "442f9f676c4903b718e41ebb0d045239",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List tracking logs"
+                    },
+                    "404": {
+                        "description": "Container tidak ditemukan"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/gateway/containers/{id}": {
+            "delete": {
+                "tags": [
+                    "Containers Gateway"
+                ],
+                "summary": "Hapus container (hanya admin)",
+                "operationId": "0d8d3b0651fcfc6e598737c41c806fc0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Container berhasil dihapus"
+                    },
+                    "403": {
+                        "description": "Forbidden - hanya admin"
+                    },
+                    "404": {
+                        "description": "Container tidak ditemukan"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Containers Gateway"
+                ],
+                "summary": "Update status container (hanya admin)",
+                "operationId": "9e90221552ed4aab53f7606ef8f8e4a3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "Active",
+                                            "Archived"
+                                        ],
+                                        "example": "Archived"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Container berhasil diupdate"
+                    },
+                    "403": {
+                        "description": "Forbidden - hanya admin"
+                    },
+                    "404": {
+                        "description": "Container tidak ditemukan"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Authentication",
+            "description": "API endpoints untuk autentikasi user"
+        },
+        {
+            "name": "Containers Gateway",
+            "description": "API Gateway endpoints untuk manajemen containers dengan authorization"
+        }
+    ]
+}

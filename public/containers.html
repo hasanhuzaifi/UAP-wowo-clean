@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WowoClean - Containers</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #f8f9fa;
+            color: #1a1a1a;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; }
+
+        /* Header */
+        header {
+            background: #ffffff;
+            padding: 25px 40px;
+            border-radius: 4px;
+            border: 2px solid #1a1a1a;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 2px solid #1a1a1a;
+        }
+
+        .header-text h1 {
+            font-size: 2em;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            margin-bottom: 3px;
+        }
+
+        .subtitle {
+            font-weight: 500;
+            color: #666;
+            text-transform: uppercase;
+            font-size: 0.8em;
+            letter-spacing: 1px;
+        }
+
+        /* User Info di Header */
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-shrink: 0;
+        }
+
+        .user-info {
+            text-align: right;
+        }
+
+        .user-name {
+            font-weight: 800;
+            font-size: 0.95em;
+            text-transform: uppercase;
+        }
+
+        .user-role {
+            display: inline-block;
+            background: #1a1a1a;
+            color: white;
+            font-size: 0.7em;
+            font-weight: 700;
+            padding: 2px 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 3px;
+        }
+
+        .user-role.role-user {
+            background: #666;
+        }
+
+        /* Tombol Logout */
+        .btn-logout {
+            padding: 10px 20px;
+            background: white;
+            color: #1a1a1a;
+            border: 2px solid #1a1a1a;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 0.8em;
+            letter-spacing: 1px;
+            transition: 0.2s;
+        }
+
+        .btn-logout:hover {
+            background: #1a1a1a;
+            color: white;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 2px solid #1a1a1a;
+            margin-bottom: 30px;
+        }
+
+        .total-weight { font-size: 1.2em; font-weight: 700; }
+        .total-weight span { font-size: 1.5em; text-decoration: underline; }
+
+        /* Buttons */
+        .btn {
+            padding: 10px 20px;
+            border: 2px solid #1a1a1a;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 0.75em;
+            letter-spacing: 1px;
+            transition: 0.2s;
+        }
+
+        .btn-primary { background: #1a1a1a; color: white; }
+        .btn-primary:hover { background: white; color: #1a1a1a; }
+        .btn-outline { background: white; color: #1a1a1a; }
+        .btn-outline:hover { background: #f0f0f0; }
+
+        /* Form */
+        .form-container {
+            background: white;
+            padding: 30px;
+            border: 2px solid #1a1a1a;
+            margin-bottom: 30px;
+        }
+
+        .form-title {
+            text-transform: uppercase;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        .form-group { margin-bottom: 15px; }
+
+        label {
+            display: block;
+            text-transform: uppercase;
+            font-size: 0.75em;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #1a1a1a;
+            font-size: 1em;
+            background: white;
+        }
+
+        input:focus { outline: none; background: #f0f0f0; }
+
+        .error-message { color: #d00; font-size: 0.8em; margin-top: 5px; font-weight: 600; display: none; }
+        .error-message.show { display: block; }
+
+        /* Search */
+        .search-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr auto;
+            gap: 15px;
+            margin-bottom: 30px;
+            align-items: end;
+        }
+
+        /* Cards */
+        .containers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .container-card {
+            background: white;
+            border: 1px solid #1a1a1a;
+            padding: 20px;
+            transition: 0.3s;
+        }
+
+        .container-card:hover {
+            box-shadow: 8px 8px 0px #1a1a1a;
+            transform: translate(-4px, -4px);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #1a1a1a;
+            padding-bottom: 10px;
+        }
+
+        .container-id { font-size: 1.4em; font-weight: 800; }
+
+        .status-badge {
+            display: inline-block;
+            padding: 2px 10px;
+            font-size: 0.7em;
+            font-weight: 700;
+            text-transform: uppercase;
+            border: 1px solid #1a1a1a;
+        }
+
+        .status-active { background: #1a1a1a; color: white; }
+        .status-archived { background: #eee; color: #666; }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            padding: 4px 0;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn-logs { background: white; color: #1a1a1a; border: 1px solid #1a1a1a; padding: 7px 12px; font-size: 0.75em; }
+        .btn-archive { background: #f5a623; color: white; border: 1px solid #f5a623; padding: 7px 12px; font-size: 0.75em; }
+        .btn-delete { background: white; color: #d00; border: 1px solid #d00; padding: 7px 12px; font-size: 0.75em; }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0; top: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.8);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 10% auto;
+            padding: 30px;
+            border: 2px solid #1a1a1a;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .log-entry {
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .log-time { font-size: 0.85em; color: #666; margin-bottom: 3px; }
+        .log-location { font-weight: 700; margin-bottom: 3px; }
+        .log-desc { font-size: 0.9em; color: #333; }
+
+        @media (max-width: 768px) {
+            header { flex-direction: column; }
+            .search-container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- HEADER dengan User Info dan Logout -->
+        <header>
+            <div class="header-left">
+                <img src="wowok.jpg" alt="WowoClean" class="header-img">
+                <div class="header-text">
+                    <h1>WowoClean</h1>
+                    <p class="subtitle">Sistem Logistik Pengelolaan Limbah B3</p>
+                </div>
+            </div>
+
+            <!-- User Info + Tombol Logout -->
+            <div class="header-right">
+                <div class="user-info">
+                    <div class="user-name" id="userNameDisplay">Loading...</div>
+                    <div class="user-role" id="userRoleDisplay">-</div>
+                </div>
+                <button class="btn-logout" id="logoutBtn">🚪 LOGOUT</button>
+            </div>
+        </header>
+
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+            <div class="total-weight">
+                TOTAL LOAD: <span id="totalWeight">0</span> KG
+            </div>
+            <button class="btn btn-primary" id="addContainerBtn" onclick="toggleForm()" style="display:none;">
+                + ADD CONTAINER
+            </button>
+        </div>
+
+        <!-- Form Tambah Container (hanya tampil untuk admin) -->
+        <div class="form-container" id="formContainer" style="display: none;">
+            <h2 class="form-title">New Entry</h2>
+            <form id="containerForm">
+                <div class="form-group">
+                    <label>Container ID</label>
+                    <input type="text" id="container_id" placeholder="e.g. GD12345">
+                    <div class="error-message" id="error_container_id"></div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="form-group">
+                        <label>Waste Type</label>
+                        <select id="waste_type">
+                            <option value="">Select Type</option>
+                            <option value="Chemical">Chemical</option>
+                            <option value="Organic">Organic</option>
+                            <option value="Plastic">Plastic</option>
+                            <option value="Metal">Metal</option>
+                            <option value="Electronic">Electronic</option>
+                        </select>
+                        <div class="error-message" id="error_waste_type"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Weight (KG)</label>
+                        <input type="number" id="weight_kg" min="10" max="5000">
+                        <div class="error-message" id="error_weight_kg"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Initial Status</label>
+                    <select id="status">
+                        <option value="Active">Active</option>
+                        <option value="Archived">Archived</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">SAVE RECORD</button>
+            </form>
+        </div>
+
+        <!-- Search & Filter -->
+        <div class="search-container">
+            <div class="search-group">
+                <label>Filter by Type</label>
+                <select id="searchType" onchange="searchContainers()">
+                    <option value="">All Types</option>
+                    <option value="Chemical">Chemical</option>
+                    <option value="Organic">Organic</option>
+                    <option value="Plastic">Plastic</option>
+                    <option value="Metal">Metal</option>
+                    <option value="Electronic">Electronic</option>
+                </select>
+            </div>
+            <div class="search-group">
+                <label>Min Weight</label>
+                <input type="number" id="searchMinWeight" placeholder="0">
+            </div>
+            <button class="btn btn-outline" onclick="searchContainers()">SEARCH</button>
+        </div>
+
+        <!-- Container Grid -->
+        <div class="containers-grid" id="containersGrid"></div>
+
+        <!-- Modal Tracking Logs -->
+        <div id="logsModal" class="modal">
+            <div class="modal-content">
+                <h2 class="form-title" id="modalTitle">Tracking Logs</h2>
+                <div id="logsContent"></div>
+                <button class="btn btn-primary" onclick="closeModal()" style="width: 100%; margin-top: 20px;">CLOSE</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="app.js"></script>
+    <script>
+        function toggleForm() {
+            const f = document.getElementById('formContainer');
+            f.style.display = f.style.display === 'none' ? 'block' : 'none';
+        }
+    </script>
+</body>
+</html>

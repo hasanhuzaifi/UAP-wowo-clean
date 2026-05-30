@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WowoClean - Login</title>
+    <style>
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #f8f9fa;
+            color: #1a1a1a;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 450px;
+        }
+
+        /* Modern B&W Header (Sesuai index.html) */
+        header {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 4px;
+            border: 2px solid #1a1a1a;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 4px 4px 0px #1a1a1a;
+        }
+
+        .header-img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 2px solid #1a1a1a;
+        }
+
+        .header-text h1 {
+            font-size: 1.8em;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            margin-bottom: 2px;
+        }
+
+        .subtitle {
+            font-weight: 800;
+            color: #1a1a1a;
+            text-transform: uppercase;
+            font-size: 0.7em;
+            letter-spacing: 1px;
+        }
+
+        /* Form Styles - High Contrast */
+        .form-container {
+            background: white;
+            padding: 35px;
+            border: 2px solid #1a1a1a;
+            border-radius: 4px;
+            box-shadow: 8px 8px 0px #1a1a1a;
+        }
+
+        .form-title {
+            text-transform: uppercase;
+            font-size: 1.4em;
+            margin-bottom: 25px;
+            font-weight: 800;
+            border-bottom: 2px solid #1a1a1a;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            text-transform: uppercase;
+            font-size: 0.75em;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #1a1a1a;
+            border-radius: 0;
+            font-size: 1em;
+            background: white;
+            transition: all 0.2s;
+        }
+
+        input:focus {
+            outline: none;
+            background: #f0f0f0;
+            border-width: 3px;
+            padding: 13px;
+        }
+
+        /* Error & Alerts */
+        .error-message { 
+            color: #d00; 
+            font-size: 0.8em; 
+            margin-top: 5px; 
+            font-weight: 700; 
+            display: none; 
+            text-transform: uppercase;
+        }
+        
+        .error-message.show { display: block; }
+
+        .alert {
+            padding: 12px;
+            border-radius: 0;
+            margin-bottom: 20px;
+            display: none;
+            font-weight: 700;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            border: 2px solid #1a1a1a;
+        }
+
+        .alert.success { background: #d4edda; color: #155724; border-color: #155724; }
+        .alert.error { background: #f8d7da; color: #721c24; border-color: #721c24; }
+        .alert.show { display: block; }
+
+        /* Buttons */
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #1a1a1a;
+            border-radius: 0;
+            font-weight: 800;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 1px;
+            transition: 0.2s;
+            margin-top: 10px;
+        }
+
+        .btn-primary {
+            background: #1a1a1a;
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: white;
+            color: #1a1a1a;
+            box-shadow: 4px 4px 0px #1a1a1a;
+            transform: translate(-2px, -2px);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background: #666;
+            border-color: #666;
+        }
+
+        /* Extras */
+        .demo-creds {
+            margin-top: 30px;
+            padding: 15px;
+            border: 1px dashed #1a1a1a;
+            font-size: 0.85em;
+            background: #f8f9fa;
+            line-height: 1.8;
+        }
+
+        .demo-creds strong { 
+            color: #1a1a1a;
+            font-weight: 800; 
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 15px;
+            font-weight: 800;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            color: #1a1a1a;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        
+        <header>
+            <img src="wowok.jpg" alt="WowoClean" class="header-img">
+            <div class="header-text">
+                <h1>WowoClean</h1>
+                <p class="subtitle">Logistik Limbah B3</p>
+            </div>
+        </header>
+
+        <div class="form-container">
+            <h2 class="form-title">System Login</h2>
+            
+            <div id="alert" class="alert"></div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email Akses</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        placeholder="email@wowoclean.com" 
+                        required
+                    >
+                    <div class="error-message" id="error_email"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Kata Sandi</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        placeholder="••••••••" 
+                        required
+                    >
+                    <div class="error-message" id="error_password"></div>
+                </div>
+
+                <button type="submit" class="btn btn-primary" id="submitBtn">AUTHENTICATE</button>
+                
+                <div class="loading" id="loading">
+                    Memproses Autentikasi...
+                </div>
+            </form>
+
+            <div class="demo-creds">
+                <strong>Demo Credentials:</strong><br>
+                <strong>Admin:</strong> admin@wowoclean.com / admin123<br>
+                <strong>User:</strong> user@wowoclean.com / user123
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        const loginForm = document.getElementById('loginForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const loading = document.getElementById('loading');
+        const alertEl = document.getElementById('alert');
+
+        // Konfigurasi Axios dengan baseURL ke http://127.0.0.1:8000/api/v1
+        const api = axios.create({
+            baseURL: 'http://127.0.0.1:8000/api/v1',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        });
+
+        loginForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Clear previous errors
+            document.querySelectorAll('.error-message').forEach(el => {
+                el.classList.remove('show');
+                el.textContent = '';
+            });
+            alertEl.classList.remove('show');
+
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+
+            submitBtn.disabled = true;
+            loading.style.display = 'block';
+
+            try {
+                const response = await api.post('/login', {
+                    email: email,
+                    password: password
+                });
+
+                if (response.data.success) {
+                    // Simpan token ke localStorage
+                    localStorage.setItem('authToken', response.data.token);
+                    localStorage.setItem('user', JSON.stringify(response.data.user));
+
+                    // Show success message
+                    showAlert('AUTENTIKASI BERHASIL! MENGALIHKAN...', 'success');
+                    
+                    // Redirect ke halaman containers setelah 1.5 detik
+                    setTimeout(() => {
+                        window.location.href = 'containers.html';
+                    }, 1500);
+                }
+            } catch (error) {
+                if (error.response && error.response.status === 401) {
+                    showAlert('EMAIL ATAU KATA SANDI SALAH!', 'error');
+                } else if (error.response && error.response.status === 422) {
+                    // Tampilkan error per field
+                    const errors = error.response.data.errors;
+                    Object.keys(errors).forEach(field => {
+                        const errorEl = document.getElementById(`error_${field}`);
+                        if (errorEl) {
+                            errorEl.textContent = errors[field][0];
+                            errorEl.classList.add('show');
+                        }
+                    });
+                } else {
+                    showAlert('GAGAL TERHUBUNG KE SERVER!', 'error');
+                }
+            } finally {
+                submitBtn.disabled = false;
+                loading.style.display = 'none';
+            }
+        });
+
+        function showAlert(message, type) {
+            alertEl.textContent = message;
+            alertEl.className = `alert show ${type}`;
+        }
+
+        // Cek apakah user sudah login
+        window.addEventListener('load', function() {
+            const token = localStorage.getItem('authToken');
+            if (token) {
+                window.location.href = 'containers.html';
+            }
+        });
+    </script>
+</body>
+</html>
